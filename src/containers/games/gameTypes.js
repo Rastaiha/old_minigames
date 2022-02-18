@@ -144,24 +144,24 @@ export default {
     type: 'MESSAGE_GAME',
     url: '/games/MESSAGE_GAME/',
   },
-  // AUCTION_GAME1: {
-  //   name: 'مزایده',
-  //   type: 'AUCTION_GAME1',
-  //   url: '/games/AUCTION_GAME1/',
-  // },
-  // AUCTION_GAME2: {
-  //   name: 'مزایده',
-  //   type: 'AUCTION_GAME2',
-  //   url: '/games/AUCTION_GAME2/',
-  // },
-  // AUCTION_GAME3: {
-  //   name: 'مزایده',
-  //   type: 'AUCTION_GAME3',
-  //   url: '/games/AUCTION_GAME3/',
-  // },
-  // AUCTION_GAME4: {
-  //   name: 'مزایده',
-  //   type: 'AUCTION_GAME4',
-  //   url: '/games/AUCTION_GAME4/',
-  // },
+  AUCTION_GAME1: {
+    name: 'مزایده',
+    type: 'AUCTION_GAME1',
+    url: '/games/AUCTION_GAME1/',
+  },
+  AUCTION_GAME2: {
+    name: 'مزایده',
+    type: 'AUCTION_GAME2',
+    url: '/games/AUCTION_GAME2/',
+  },
+  AUCTION_GAME3: {
+    name: 'مزایده',
+    type: 'AUCTION_GAME3',
+    url: '/games/AUCTION_GAME3/',
+  },
+  AUCTION_GAME4: {
+    name: 'مزایده',
+    type: 'AUCTION_GAME4',
+    url: '/games/AUCTION_GAME4/',
+  },
 };

@@ -13,8 +13,8 @@ class LandingPage extends Component {
     }
     return (
       <ol>
-        {games.map(game => (
-          <li>
+        {games.map((game, index) => (
+          <li key={index}>
             <a href={game.url}>
               {game.name}
             </a>

@@ -41,8 +41,8 @@ export default class Game extends Component {
         return <ThirdStreetGraph />;
       case gameTypes.MAP_GAME.type:
         return <Map />;
-      case gameTypes.STREET_GRAPH.type:
-        return <GameTheoryGraph />;
+      // case gameTypes.STREET_GRAPH.type:
+      //   return <GameTheoryGraph />;
       case gameTypes.PIPELINE_GRAPH.type:
         return <PipelinePane />;
       case gameTypes.SECOND_PIPELINE_GRAPH.type:
@@ -85,14 +85,14 @@ export default class Game extends Component {
         return <BlockChain />;
       case gameTypes.MESSAGE_GAME.type:
         return <MessageGame />;
-      case gameTypes.AUCTION_GAME1.type:
-        return <Auction values={[30, 60, 95]} auction_pay_type={1} />;
-      case gameTypes.AUCTION_GAME2.type:
-        return <Auction values={[60, 82, 80]} auction_pay_type={1} />;
-      case gameTypes.AUCTION_GAME3.type:
-        return <Auction values={[95, 90, 93]} auction_pay_type={1} />;
-      case gameTypes.AUCTION_GAME4.type:
-        return <Auction values={[30, 55, 90]} auction_pay_type={1} />;
+      // case gameTypes.AUCTION_GAME1.type:
+      //   return <Auction values={[30, 60, 95]} auction_pay_type={1} />;
+      // case gameTypes.AUCTION_GAME2.type:
+      //   return <Auction values={[60, 82, 80]} auction_pay_type={1} />;
+      // case gameTypes.AUCTION_GAME3.type:
+      //   return <Auction values={[95, 90, 93]} auction_pay_type={1} />;
+      // case gameTypes.AUCTION_GAME4.type:
+      //   return <Auction values={[30, 55, 90]} auction_pay_type={1} />;
       default:
         return <Redirect to="/" />;
     }
