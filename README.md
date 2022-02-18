@@ -1,5 +1,5 @@
 # Old Minigames
-This project is a part of the "Rasta Frontend Prototype" project.
+This project is a part of the "rasta_workshop_prototype" project.
 
 ## Installation
 
