@@ -40,12 +40,12 @@ function dormGraph(
         dormVertices: state.dormVertices.map(function (vertice) {
           return vertice.id === action.payload.id
             ? {
-              ...vertice,
-              props: {
-                ...vertice.props,
-                ...action.payload.props,
-              },
-            }
+                ...vertice,
+                props: {
+                  ...vertice.props,
+                  ...action.payload.props,
+                },
+              }
             : vertice;
         }),
       };
@@ -56,12 +56,12 @@ function dormGraph(
         dormEdges: state.dormEdges.map(function (edge) {
           return edge.id === action.payload.id
             ? {
-              ...edge,
-              props: {
-                ...edge.props,
-                ...action.payload.props,
-              },
-            }
+                ...edge,
+                props: {
+                  ...edge.props,
+                  ...action.payload.props,
+                },
+              }
             : edge;
         }),
       };

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { ActionCreators as UndoActionCreators } from 'redux-undo';
-import { Icon } from 'semantic-ui-react';
+import { Icon, Grid } from 'semantic-ui-react';
 import FirstContainer from '../../../components/boxes/FirstContainer';
 import SecondContainer from '../../../components/boxes/SecondContainer';
 import SimulatorView from '../../../components/boxes/SimulatorView';
@@ -20,7 +20,6 @@ import {
 
 class FirstBoxesContainer extends Component {
   state = {
-    optimum: 24,
     height: window.innerHeight,
     width: (window.innerWidth * 2) / 3 + 30,
   };
@@ -42,14 +41,9 @@ class FirstBoxesContainer extends Component {
   };
 
   render() {
-    const shellBoxes = this.props.boxes.filter((box) => {
-      return box.props.situation === situations.IN_SHELL;
-    });
-    console.log(
-      'level:::::',
-      this.props.level,
-      this.props.canUndo && this.props.level === 1
-    );
+    // const shellBoxes = this.props.boxes.filter((box) => {
+    //   return box.props.situation === situations.IN_SHELL;
+    // });
     return (
       <>
         <Icon
@@ -58,7 +52,6 @@ class FirstBoxesContainer extends Component {
           style={{
             cursor: 'pointer',
           }}
-          disabled={this.props.canUndo && this.props.level === 1 ? false : true}
         />
         <Icon
           name="redo"
@@ -66,29 +59,19 @@ class FirstBoxesContainer extends Component {
           style={{
             cursor: 'pointer',
           }}
-          disabled={this.props.canUndo && this.props.level === 1 ? false : true}
         />
         <SimulatorView
           optimum={this.props.optimum}
           stageWidth={this.state.width}
           boxes={this.props.boxes}
-          box={
-            this.props.level === 1
-              ? null
-              : shellBoxes.length !== 0
-              ? shellBoxes[0]
-              : null
-          }
           createBox={this.props.createBox}
           updateBox={this.props.updateBox}
           deleteBox={this.props.deleteBox}
-          boxContainer={
-            this.props.level === 1 ? FirstContainer : SecondContainer
-          }
+          boxContainer={FirstContainer}
           round={this.props.round}
           answer={this.props.answer}
           mode={this.props.mode}
-          level={this.props.level}
+          level={1}
           totalTime={this.props.totalTime}
           changeMode={this.props.changeMode}
           changeTotaltime={this.props.changeTotaltime}

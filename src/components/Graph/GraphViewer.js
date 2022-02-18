@@ -14,6 +14,7 @@ export default class GraphViewer extends Component {
   constructor(props) {
     super(props);
     this.edgItems = [];
+    this.verticeNames = [];
     this.getEdgeVertices = this.getEdgeVertices.bind(this);
     this.onDragMove = this.onDragMove.bind(this);
     this.onStartEditing = this.onStartEditing.bind(this);
@@ -36,6 +37,11 @@ export default class GraphViewer extends Component {
   }
 
   onDragMove(x, y, id) {
+    if (this.verticeNames[id]) {
+      this.verticeNames[id].x(x - 30);
+      this.verticeNames[id].y(y - 10);
+    }
+
     this.props.edges.forEach((edge) => {
       if (edge.from === id) {
         const points = this.edgItems[edge.id].points();
@@ -167,8 +173,8 @@ export default class GraphViewer extends Component {
                           vertex.id === this.props.vertices[this.props.t].id
                           ? '#304c78'
                           : vertex.props.notStable
-                            ? 'red'
-                            : 'black'
+                          ? 'red'
+                          : 'black'
                         : 'black'
                     }
                     draggable={
@@ -178,6 +184,9 @@ export default class GraphViewer extends Component {
                     }
                     shadowBlur={vertex.isSelected ? 20 : 0}
                     onClick={() =>
+                      this.props.onSelect(vertex.id, vertex.isSelected)
+                    }
+                    onTouchStart={() =>
                       this.props.onSelect(vertex.id, vertex.isSelected)
                     }
                     onDragEnd={(e) =>
@@ -191,16 +200,18 @@ export default class GraphViewer extends Component {
                       this.onDragMove(e.target.x(), e.target.y(), vertex.id)
                     }
                   />
-                  {this.props.gameType === gameTypes.PIPELINE_GRAPH.type ? (
+                  {this.props.gameType === gameTypes.PIPELINE_GRAPH.type ||
+                  this.props.gameType === gameTypes.DORM_GAME.type ? (
                     <Text
                       x={vertex.props.x - 30}
                       y={vertex.props.y - 10}
                       width={60}
+                      ref={(name) => (this.verticeNames[vertex.id] = name)}
                       align="center"
                       verticalAlign="middle"
                       text={vertex.props.name}
                       stroke="white"
-                      fontSize={20}
+                      fontSize={15}
                       strokeWidth={1}
                     />
                   ) : (

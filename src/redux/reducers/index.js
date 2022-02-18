@@ -23,8 +23,9 @@ import protractor from './protractor';
 import firstTrafficGraph from './firstStreeGraph';
 import secondTrafficGraph from './secondStreetGraph';
 import thirdTrafficGraph from './thirdStreetGraph';
-import x_questions from './x-questions'
-import auction from './auction'
+import x_questions from './x-questions';
+import auction from './auction';
+import blankGame from './blankGame';
 
 const allReducers = combineReducers({
   whiteboard,
@@ -52,6 +53,7 @@ const allReducers = combineReducers({
   thirdTrafficGraph,
   x_questions,
   auction,
+  blankGame,
 });
 
 export default allReducers;

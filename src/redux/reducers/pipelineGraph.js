@@ -101,12 +101,12 @@ function pipelineGraph(
         pipelineVertices: state.pipelineVertices.map(function (vertice) {
           return vertice.id === action.payload.id
             ? {
-              ...vertice,
-              props: {
-                ...vertice.props,
-                ...action.payload.props,
-              },
-            }
+                ...vertice,
+                props: {
+                  ...vertice.props,
+                  ...action.payload.props,
+                },
+              }
             : vertice;
         }),
       };
@@ -143,9 +143,9 @@ const undoablePipelineGraph = undoable(pipelineGraph, {
   filter: (action, state) => {
     return (
       action.type ===
-      actionTypes.UPDATE_EDGE + '_' + gameTypes.PIPELINE_GRAPH.type ||
+        actionTypes.UPDATE_EDGE + '_' + gameTypes.PIPELINE_GRAPH.type ||
       action.type ===
-      actionTypes.UPDATE_VERTICE + '_' + gameTypes.PIPELINE_GRAPH.type
+        actionTypes.UPDATE_VERTICE + '_' + gameTypes.PIPELINE_GRAPH.type
     );
   },
 });

@@ -13,7 +13,7 @@ const FirstContainer = (props) => {
         y={0}
         width={props.machineHeight}
         height={props.machineWidth}
-        stroke="blue"
+        stroke="#4a574c"
         cornerRadius={5}
       />
       {props.boxes

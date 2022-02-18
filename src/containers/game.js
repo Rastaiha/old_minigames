@@ -29,10 +29,19 @@ import FirstStreetGraph from './games/GameTheoryGames/FirstStreetGraph';
 import SecondStreetGraph from './games/GameTheoryGames/SecondStreetGraph';
 import ThirdStreetGraph from './games/GameTheoryGames/ThirdStreetGraph';
 import Auction from './games/GameTheoryGames/Auction';
+import FirstBlankGame from './games/BlankGame/FirstBlankGame';
+import SecondBlankGame from './games/BlankGame/SecondBlankGame';
+import ThirdBlankGame from './games/BlankGame/ThirdBlankGame';
 
 export default class Game extends Component {
   render() {
     switch (this.props.match.params.id) {
+      case gameTypes.THIRD_BLANK_GAME.type:
+        return <ThirdBlankGame />;
+      case gameTypes.SECOND_BLANK_GAME.type:
+        return <SecondBlankGame />;
+      case gameTypes.FIRST_BLANK_GAME.type:
+        return <FirstBlankGame />;
       case gameTypes.FIRST_TRAFFIC_GAME.type:
         return <FirstStreetGraph />;
       case gameTypes.SECOND_TRAFFIC_GAME.type:

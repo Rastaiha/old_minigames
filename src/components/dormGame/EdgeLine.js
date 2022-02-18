@@ -14,12 +14,13 @@ class DormEdge extends Component {
   }
 
   render() {
+    const widthScale = window.innerWidth / 671;
     return (
       <>
         <Line
           {...this.props}
           stroke={this.props.inMaxMatch ? 'red' : "#333"}
-          strokeWidth={10}
+          strokeWidth={widthScale > 0.8 ? 10 : 7}
           ref={(line) => (this.myLine = line)}
           shadowBlur={this.props.isSelected ? 20 : 0}
         />

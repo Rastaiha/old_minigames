@@ -1,29 +1,26 @@
 /* .hashem2{
   /* margin: 20px auto; */
-/* padding: 20px; */
-/* width: 100%;
+  /* padding: 20px; */
+  /* width: 100%;
   direction: rtl;
   position: absolute;
   display: block;
   justify-content: center;
   align-items: center;
-} */
+} */ 
 
-body,
-html,
-#root,
-#container {
-  height: 100% !important;
-  width: 100% !important;
+body, html,#root, #container{
+  height: 100%!important;
+  width: 100%!important;
   margin: 0 0 0 0;
   padding: 0 0 0 0;
 }
 
-.label {
-  margin: 5px auto !important;
+.label{
+  margin: 5px auto!important;
 }
 
-#base {
+#base{
   direction: rtl;
   position: absolute;
   display: flex;
@@ -36,53 +33,52 @@ html,
   padding: 0 auto;
 }
 
-.P-Message {
+.P-Message{
   position: absolute;
   border-radius: 5px;
   display: table;
-  margin: 0 auto;
+  margin:0 auto;
   /* top: 100px; */
   /* z-index: 5; */
   background-color: rgba(30, 255, 0, 0.5);
 }
 
-#column1,
-#column2 {
-  display: block !important;
-  text-align: center !important;
+
+#column1,#column2{
+  display: block!important;
+  text-align: center!important;
 }
 
-#input1,
-#input2 {
+#input1,#input2{
   text-align: center;
   direction: rtl;
 }
 
-.gameteory-rentroom-game .center {
+.gameteory-rentroom-game .center{
   display: table;
-  margin: 0 auto;
+  margin:0 auto;
 }
 
-#row1 {
+#row1{
   position: relative;
   display: flex;
   height: 50%;
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: rgba(0, 162, 255, 0.76);
+  background-color: rgba(0, 162, 255, 0.76)
 }
 
-#row2 {
+#row2{
   position: relative;
   bottom: 0;
   display: block;
   /* justify-content: center; */
   /* text-align: center; */
   /* align-items: center; */
-  height: 20% !important;
+  height: 20%!important;
   width: 100%;
   margin: 0;
   padding: 0;
-  background-color: rgba(30, 255, 0, 0.5);
+  background-color: rgba(30, 255, 0, 0.5)
 }

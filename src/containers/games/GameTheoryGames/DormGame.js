@@ -12,7 +12,7 @@ import {
 import { connect } from 'react-redux';
 import gameTypes from '../gameTypes';
 import GraphViewer from '../../../components/Graph/GraphViewer';
-import { Icon, Container } from 'semantic-ui-react';
+import { Icon, Container, Button } from 'semantic-ui-react';
 import DormEdge from '../../../components/dormGame/EdgeLine';
 import _ from 'lodash';
 
@@ -33,7 +33,9 @@ class DormGame extends Component {
       maxEdges: [],
       isShowingMaxMatchings: false,
       matchingsLength: 0,
-      curMatchingIndex: 1,
+      curMatchingIndex: 0,
+      currentIndex: 0,
+      graphHasChanged: false,
     };
 
     this.onDragEnd = this.onDragEnd.bind(this);
@@ -42,6 +44,7 @@ class DormGame extends Component {
     this.getEdges = this.getEdges.bind(this);
     this.clacMatchings = this.clacMatchings.bind(this);
     this.resetEdges = this.resetEdges.bind(this);
+    this.showNextMaching = this.showNextMaching.bind(this);
   }
 
   match(v, n, m) {
@@ -103,21 +106,24 @@ class DormGame extends Component {
   }
 
   onSelect(id, isSelected) {
-    if (isSelected) {
-      this.props.deselectVertex(id, gameTypes.DORM_GAME.type);
-    } else {
-      this.props.selectVertex(id, gameTypes.DORM_GAME.type);
-      this.props.vertices.forEach((vertex) => {
-        if (vertex.id !== id && vertex.isSelected) {
-          if (!this.edgeExists(id, vertex.id)) {
-            this.props.createEdge(id, vertex.id, gameTypes.DORM_GAME.type, {
-              inMaxMatch: false,
-            });
+    if (!this.state.isShowingMaxMatchings) {
+      if (isSelected) {
+        this.props.deselectVertex(id, gameTypes.DORM_GAME.type);
+      } else {
+        this.props.selectVertex(id, gameTypes.DORM_GAME.type);
+        this.props.vertices.forEach((vertex) => {
+          if (vertex.id !== id && vertex.isSelected) {
+            if (!this.edgeExists(id, vertex.id)) {
+              this.setState({ graphHasChanged: true });
+              this.props.createEdge(id, vertex.id, gameTypes.DORM_GAME.type, {
+                inMaxMatch: false,
+              });
+            }
+            this.props.deselectVertex(id, gameTypes.DORM_GAME.type);
+            this.props.deselectVertex(vertex.id, gameTypes.DORM_GAME.type);
           }
-          this.props.deselectVertex(id, gameTypes.DORM_GAME.type);
-          this.props.deselectVertex(vertex.id, gameTypes.DORM_GAME.type);
-        }
-      });
+        });
+      }
     }
   }
 
@@ -126,9 +132,14 @@ class DormGame extends Component {
       {
         x: 100,
         y: 100,
+        name: alphabet[this.state.currentIndex],
       },
       gameTypes.DORM_GAME.type
     );
+    this.setState({ graphHasChanged: true });
+    if (this.state.currentIndex <= 30) {
+      this.setState({ currentIndex: this.state.currentIndex + 1 });
+    }
   }
 
   onTrashIconClick() {
@@ -136,6 +147,7 @@ class DormGame extends Component {
       isShowingMaxMatchings: false,
       matchingsLength: 0,
       curMatchingIndex: 1,
+      graphHasChanged: true,
     });
     this.resetEdges();
     this.props.vertices.forEach((vertex) => {
@@ -197,6 +209,11 @@ class DormGame extends Component {
     }
   }
 
+  deleteMatching() {
+    answer.splice(this.state.curMatchingIndex - 1, 1);
+    this.showNextMaching(this.state.curMatchingIndex - 1, answer.length);
+  }
+
   getEdges() {
     let edges = [];
     this.props.edges.forEach((edge) => {
@@ -220,36 +237,44 @@ class DormGame extends Component {
     this.match(0, this.props.vertices.length, m);
   }
 
-  showNextMaching() {
+  showNextMaching(index, length) {
     if (!this.state.isShowingMaxMatchings) {
-      answer = [];
-      mat = create2DArray(20, 20);
-      per = [];
-      answer = [[]];
-      mark = new Array(20);
-      let edges = this.getEdges();
-      this.clacMatchings(edges);
+      if (this.state.graphHasChanged) {
+        answer = [];
+        mat = create2DArray(20, 20);
+        per = [];
+        answer = [[]];
+        mark = new Array(20);
+        let edges = this.getEdges();
+        this.clacMatchings(edges);
+        this.setState({ graphHasChanged: false });
+      }
+
+      if (answer.length === 1) {
+        this.setState({ isShowingMaxMatchings: false });
+        return;
+      }
 
       this.setState({
         isShowingMaxMatchings: true,
-        curMatchingIndex: 2,
         matchingsLength: answer.length - 1,
       });
 
       this.showMaxMatching(1);
+      this.setState({ curMatchingIndex: 2 });
     } else {
       this.resetEdges();
 
-      if (this.state.curMatchingIndex <= this.state.matchingsLength) {
-        this.showMaxMatching(this.state.curMatchingIndex);
-        this.setState({ curMatchingIndex: this.state.curMatchingIndex + 1 });
+      if (index <= answer.length - 1) {
+        this.showMaxMatching(index);
+        this.setState({ curMatchingIndex: index + 1 });
       } else {
         this.setState({ isShowingMaxMatchings: false });
       }
     }
   }
 
-  onEdgeSelect() { }
+  onEdgeSelect() {}
 
   render() {
     return (
@@ -274,23 +299,34 @@ class DormGame extends Component {
             name="circle"
             onClick={this.onAddNodeClick.bind(this)}
             style={{ cursor: 'pointer' }}
+            disabled={this.state.isShowingMaxMatchings ? true : false}
           />
           <Icon
             name="trash"
             onClick={this.onTrashIconClick.bind(this)}
             style={{ cursor: 'pointer' }}
+            disabled={this.state.isShowingMaxMatchings ? true : false}
           />
-          {/* <Icon
-            name="train"
-            onClick={this.showMaxMatching.bind(this)}
-            style={{ cursor: 'pointer' }}
-          /> */}
           <Icon
             name="arrow right"
-            onClick={this.showNextMaching.bind(this)}
+            onClick={() => {
+              this.showNextMaching(this.state.curMatchingIndex, answer.length);
+            }}
             style={{ cursor: 'pointer' }}
           />
         </Container>
+        {this.state.isShowingMaxMatchings && (
+          <Button
+            style={{
+              position: 'absolute',
+              top: '40px',
+              left: '10px',
+            }}
+            onClick={this.deleteMatching.bind(this)}
+          >
+            Delete This Matching
+          </Button>
+        )}
       </>
     );
   }
@@ -311,3 +347,56 @@ export default connect(mapStateToProps, {
   deleteVertex,
   deleteEdge,
 })(DormGame);
+
+const alphabet = [
+  'a',
+  'b',
+  'c',
+  'd',
+  'e',
+  'f',
+  'g',
+  'h',
+  'i',
+  'j',
+  'k',
+  'l',
+  'm',
+  'o',
+  'p',
+  'q',
+  'r',
+  's',
+  't',
+  'u',
+  'v',
+  'w',
+  'x',
+  'y',
+  'z',
+  'aa',
+  'bb',
+  'cc',
+  'dd',
+  'ee',
+  'ff',
+  'gg',
+  'hh',
+  'ii',
+  'jj',
+  'kk',
+  'll',
+  'mm',
+  'oo',
+  'pp',
+  'qq',
+  'rr',
+  'ss',
+  'tt',
+  'uu',
+  'vv',
+  'ww',
+  'xx',
+  'yy',
+  'zz',
+];

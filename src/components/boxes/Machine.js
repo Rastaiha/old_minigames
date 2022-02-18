@@ -16,7 +16,7 @@ class Machine extends Component {
           y={0}
           width={this.props.machineWidth}
           height={this.props.machineHeight}
-          stroke="red"
+          stroke="#86a38a"
           cornerRadius={5}
         />
         {this.props.boxes.map((box) => {

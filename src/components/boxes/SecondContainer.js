@@ -11,7 +11,7 @@ const SecondContainer = (props) => {
         y={0}
         width={props.boxWidth + 5}
         height={props.boxWidth + 5}
-        stroke="blue"
+        stroke="#4a574c"
         cornerRadius={5}
       />
       {props.box !== null ? (

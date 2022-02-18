@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Group, Layer, Stage } from 'react-konva';
+import { Group, Layer, Stage, Label, Tag, Text } from 'react-konva';
+
 import { Button, Container, Dropdown, Grid, Segment } from 'semantic-ui-react';
 import * as gameModes from '../../redux/reducers/dummiesGameModes';
 import Dummy from './Dummy';
@@ -38,7 +39,7 @@ class DummiesGameView extends Component {
     this.setState({ finalAnswer: finalAnswer });
 
     let index = 0;
-    this.props.dummies.forEach((dummy) => {
+    this.props.dummies.forEach((dummy, myIndex) => {
       if (this.props.level === 1) {
         if (index === 0) {
           randomNumber = finalAnswer === situations.LEFT ? 0 : 1;
@@ -47,23 +48,22 @@ class DummiesGameView extends Component {
           randomNumber = Math.round(Math.random());
         }
       } else {
-        if (index === 0 && dummy.props.wrongNumber === 0) {
+        if (myIndex === 0 && dummy.props.wrongNumber === 0) {
           randomNumber = finalAnswer === situations.LEFT ? 1 : 0;
-          index++;
         } else {
-          if (index !== 0) {
-            if (this.props.round === this.props.totalRounds) {
-              if (dummy.props.wrongNumber === 0) {
-                randomNumber = finalAnswer === situations.LEFT ? 1 : 0;
-              } else {
-                randomNumber = Math.round(Math.random());
-              }
+          if (myIndex === 0) {
+            randomNumber = finalAnswer === situations.LEFT ? 0 : 1;
+          } else {
+            if (
+              this.props.round === this.props.totalRounds &&
+              dummy.props.wrongNumber === 0
+            ) {
+              randomNumber = finalAnswer === situations.LEFT ? 1 : 0;
             } else {
               randomNumber = Math.round(Math.random());
             }
           }
         }
-        index++;
       }
 
       this.props.updateDummy(dummy.id, {
@@ -116,6 +116,8 @@ class DummiesGameView extends Component {
   }
 
   render() {
+    const widthScale = window.innerWidth / 671;
+    const heightScale = window.innerHeight / 381;
     const inputOptions = [
       { key: 1, text: 'بالا', value: 1 },
       { key: 2, text: 'پایین', value: 2 },
@@ -132,7 +134,7 @@ class DummiesGameView extends Component {
 
     return (
       <>
-        <Grid>
+        <Grid style={{ maxHeight: window.innerHeight, overflow: 'auto' }}>
           <Grid.Row>
             <Stage
               width={window.innerWidth}
@@ -145,6 +147,57 @@ class DummiesGameView extends Component {
               }}
             >
               <Layer>
+                {this.props.mode !== gameModes.START ? (
+                  <Group x={window.innerWidth / 2 - 5} y={50 * heightScale}>
+                    <Label
+                      x={0}
+                      y={0}
+                      opacity={0.75}
+                      width={100 * widthScale}
+                      offsetX={60 * widthScale}
+                    >
+                      <Tag
+                        fill="#408be6"
+                        pointerDirection="left"
+                        pointerWidth={10}
+                        pointerHeight={22}
+                        lineJoin="round"
+                      />
+                      <Text
+                        x={0}
+                        y={0}
+                        text="پایین"
+                        padding={widthScale > 0.8 ? 4 : 2}
+                        fontSize={widthScale > 0.8 ? 15 : 10}
+                        fontStyle="bold"
+                        width={40 * widthScale}
+                        align="center"
+                      />
+                    </Label>
+                    <Label x={0} y={30} opacity={0.75} width={100 * widthScale}>
+                      <Tag
+                        fill="#408be6"
+                        pointerDirection="right"
+                        pointerWidth={10}
+                        pointerHeight={22}
+                        lineJoin="round"
+                      />
+                      <Text
+                        x={0}
+                        y={0}
+                        text="بالا"
+                        padding={widthScale > 0.8 ? 4 : 2}
+                        fontSize={widthScale > 0.8 ? 15 : 10}
+                        fontStyle="bold"
+                        width={40 * widthScale}
+                        align="center"
+                      />
+                    </Label>
+                  </Group>
+                ) : (
+                  <></>
+                )}
+
                 <Group
                   x={(2 * window.innerWidth) / 18}
                   y={20}

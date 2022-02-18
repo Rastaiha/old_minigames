@@ -15,6 +15,7 @@ class SimulatorView extends Component {
     this.onNextRoundClick = this.onNextRoundClick.bind(this);
 
     this.state = {
+      round: 1,
       finished: false,
       check: null,
       height:
@@ -131,31 +132,36 @@ class SimulatorView extends Component {
     });
 
     let max = Math.max(sum1, sum2, sum3);
-    if (max === this.props.optimum) {
-      this.props.changeMode(boxesModes.CORRECT_ANSWER);
-      this.props.changeTotaltime(max);
 
-      this.props.updateAnswer(boxesModes.CORRECT_ANSWER);
-    } else {
-      this.props.changeMode(boxesModes.WRONG_ANSWER);
+    if (this.props.level === 2) {
       this.props.changeTotaltime(max);
-      this.props.updateAnswer(boxesModes.WRONG_ANSWER);
+      this.setState({ round: this.state.round + 1 });
+      this.props.changeMode(boxesModes.CORRECT_ANSWER);
+    } else {
+      if (max === this.props.optimum) {
+        if (this.props.level === 1) {
+          this.setState({ finished: true });
+          this.props.changeMode(boxesModes.CORRECT_ANSWER);
+        }
+      } else {
+        if (this.props.level === 1 && this.state.round === 1) {
+          this.props.changeMode(boxesModes.WRONG_ANSWER);
+          alert('هنوز یه فرصت دیگه داری');
+          this.setState({ round: 2 });
+        } else if (this.props.level === 1 && this.state.round === 2) {
+          alert('بازی تمام شد');
+          this.setState({ finished: true });
+        }
+      }
     }
   }
 
   onNextRoundClick() {
-    if (this.props.round !== 4) {
+    this.props.changeMode(boxesModes.PLAYING);
+    if (this.props.level === 2 && this.props.round < 4) {
       this.props.nextRound();
-
-      if (this.props.mode === boxesModes.CORRECT_ANSWER) {
-        this.props.nextLevel(2);
-      } else if (this.props.mode === boxesModes.WRONG_ANSWER) {
-        if (this.props.round === 2) {
-          this.props.nextLevel(2);
-        }
-      }
-
       this.props.changeBoxes();
+      this.props.changeMode(boxesModes.PLAYING);
     }
   }
 
@@ -165,162 +171,186 @@ class SimulatorView extends Component {
     let machineIndex = 0;
     let boxX = -1 * boxWidth + 3;
     let boxCounter = 0;
-    console.log('round:', this.props.round);
 
     return (
       <>
-        <Grid columns={3}>
-          <Grid.Column width={this.props.stageWidth}>
-            <Stage
-              width={this.props.stageWidth}
+        <Grid
+          columns={3}
+          style={{
+            overflow: 'auto',
+            maxWidth: window.innerWidth,
+            maxHeight: window.innerHeight,
+          }}
+        >
+          {this.state.finished && this.props.level === 1 ? (
+            <Image
+              src={process.env.PUBLIC_URL + '/correct_answer.png'}
+              width={window.innerWidth}
               height={window.innerHeight}
-              ref={(stage) => (this.stage = stage)}
-            >
-              <Layer ref={(layer) => (this.layer = layer)}>
-                {this.state.machines.map((machine) => {
-                  let machineSituation;
-                  switch (machineIndex) {
-                    case 0:
-                      machineSituation = situations.IN_MACHINE_1;
-                      break;
-                    case 1:
-                      machineSituation = situations.IN_MACHINE_2;
-                      break;
-                    case 2:
-                      machineSituation = situations.IN_MACHINE_3;
-                      break;
-                  }
-                  machineIndex++;
-                  return (
-                    <Machine
-                      key={machine.id}
-                      x={machine.x}
-                      y={machine.y}
-                      machineHeight={
-                        boxWidth *
-                          (this.props.boxes.length > 8
-                            ? 9
-                            : this.props.boxes.length) +
-                        30
+            />
+          ) : (
+            <>
+              <Grid.Column width={this.props.stageWidth}>
+                <Stage
+                  width={this.props.stageWidth}
+                  height={window.innerHeight}
+                  ref={(stage) => (this.stage = stage)}
+                >
+                  <Layer ref={(layer) => (this.layer = layer)}>
+                    {this.state.machines.map((machine) => {
+                      let machineSituation;
+                      switch (machineIndex) {
+                        case 0:
+                          machineSituation = situations.IN_MACHINE_1;
+                          break;
+                        case 1:
+                          machineSituation = situations.IN_MACHINE_2;
+                          break;
+                        case 2:
+                          machineSituation = situations.IN_MACHINE_3;
+                          break;
                       }
-                      // machineHeight={this.state.height}
-                      // machineWidth={this.state.width}
+                      machineIndex++;
+                      return (
+                        <Machine
+                          key={machine.id}
+                          x={machine.x}
+                          y={machine.y}
+                          machineHeight={
+                            boxWidth *
+                              (this.props.boxes.length > 8
+                                ? 9
+                                : this.props.boxes.length) +
+                            30
+                          }
+                          // machineHeight={this.state.height}
+                          // machineWidth={this.state.width}
+                          machineWidth={boxWidth + 5}
+                          draggableBox={
+                            this.props.level === 1 && !this.state.finished
+                          }
+                          boxWidth={boxWidth}
+                          boxes={this.props.boxes.filter((box) => {
+                            return box.props.situation === machineSituation;
+                          })}
+                          onDragEnd={this.onBoxDragEnd}
+                        />
+                      );
+                    })}
+                    <BoxContainer
+                      x={this.state.machines[0].x}
+                      y={this.state.machines[0].y + this.state.height + 30}
                       machineWidth={boxWidth + 5}
-                      draggableBox={this.props.level === 1}
+                      machineHeight={boxWidth * this.props.boxes.length + 30}
+                      stageWidth={this.props.stageWidth}
+                      boxes={this.props.boxes}
+                      boxCounter={boxCounter}
+                      boxX={boxX}
+                      box={this.props.box}
                       boxWidth={boxWidth}
-                      boxes={this.props.boxes.filter((box) => {
-                        return box.props.situation === machineSituation;
-                      })}
                       onDragEnd={this.onBoxDragEnd}
                     />
-                  );
-                })}
-                <BoxContainer
-                  x={this.state.machines[0].x}
-                  y={this.state.machines[0].y + this.state.height + 30}
-                  machineWidth={boxWidth + 5}
-                  machineHeight={boxWidth * this.props.boxes.length + 30}
-                  stageWidth={this.props.stageWidth}
-                  boxes={this.props.boxes}
-                  boxCounter={boxCounter}
-                  boxX={boxX}
-                  box={this.props.box}
-                  boxWidth={boxWidth}
-                  onDragEnd={this.onBoxDragEnd}
-                />
-              </Layer>
-            </Stage>
-          </Grid.Column>
-          <Grid.Column>
-            <Grid.Row>
-              <Button.Group
-                style={{
-                  display:
-                    this.props.boxes.filter((box) => {
-                      return box.props.situation === situations.IN_SHELL;
-                    }).length === 0
-                      ? ''
-                      : 'none',
-                }}
-              >
-                <Button
-                  onClick={this.onFinishButtonClick}
-                  attached="left"
-                  textAlign="center"
-                  // disabled={}
+                  </Layer>
+                </Stage>
+              </Grid.Column>
+              <Grid.Column>
+                <Grid.Row>
+                  <Button.Group
+                    style={{
+                      display:
+                        this.props.boxes.filter((box) => {
+                          return box.props.situation === situations.IN_SHELL;
+                        }).length === 0
+                          ? ''
+                          : 'none',
+                    }}
+                  >
+                    <Button
+                      onClick={this.onFinishButtonClick}
+                      attached="left"
+                      textAlign="center"
+                    >
+                      Finish
+                    </Button>
+                    <Button
+                      onClick={this.onNextRoundClick}
+                      attached="right"
+                      textAlign="center"
+                      disabled={
+                        this.props.level === 1
+                          ? true
+                          : this.props.boxes.filter((box) => {
+                              return (
+                                box.props.situation === situations.IN_SHELL
+                              );
+                            }).length === 0 &&
+                            this.props.mode !== boxesModes.PLAYING
+                          ? false
+                          : true
+                      }
+                    >
+                      Next Round
+                    </Button>
+                  </Button.Group>
+                </Grid.Row>
+                <Grid.Row
+                  style={{
+                    marginTop: '20px',
+                  }}
                 >
-                  Finish
-                </Button>
-                <Button
-                  onClick={this.onNextRoundClick}
-                  attached="right"
-                  textAlign="center"
-                  disabled={
-                    this.props.boxes.filter((box) => {
-                      return box.props.situation === situations.IN_SHELL;
-                    }).length === 0 && this.props.mode !== boxesModes.PLAYING
-                      ? false
-                      : true
-                  }
-                >
-                  Next Round
-                </Button>
-              </Button.Group>
-            </Grid.Row>
-            <Grid.Row
-              style={{
-                marginTop: '20px',
-              }}
-            >
-              <Image
-                src={
-                  this.props.mode === boxesModes.CORRECT_ANSWER
-                    ? process.env.PUBLIC_URL + '/greenCheck.png'
-                    : process.env.PUBLIC_URL + '/redX.png'
-                }
-                size="mini"
-                style={{
-                  display:
-                    this.props.boxes.filter((box) => {
-                      return box.props.situation === situations.IN_SHELL;
-                    }).length === 0 && this.props.mode !== boxesModes.PLAYING
-                      ? ''
-                      : 'none',
-                }}
-              />
-            </Grid.Row>
-          </Grid.Column>
-          <Grid.Column>
-            {this.props.mode !== boxesModes.PLAYING &&
-            this.props.level === 2 ? (
-              <Table
-                style={{
-                  width: 150,
-                }}
-              >
-                <Table.Body>
-                  <Table.Row textAlign="center">
-                    <Table.Cell>optimum</Table.Cell>
-                    <Table.Cell>{this.props.optimum}</Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign="center">
-                    <Table.Cell>total time</Table.Cell>
-                    <Table.Cell>{this.props.totalTime}</Table.Cell>
-                  </Table.Row>
-                  <Table.Row textAlign="center">
-                    <Table.Cell>total time/optimum</Table.Cell>
-                    <Table.Cell>
-                      {Math.round(
-                        (this.props.optimum / this.props.totalTime) * 100
-                      ) / 100}
-                    </Table.Cell>
-                  </Table.Row>
-                </Table.Body>
-              </Table>
-            ) : (
-              ''
-            )}
-          </Grid.Column>
+                  <Image
+                    src={
+                      this.props.mode === boxesModes.CORRECT_ANSWER
+                        ? process.env.PUBLIC_URL + '/greenCheck.png'
+                        : process.env.PUBLIC_URL + '/redX.png'
+                    }
+                    size="mini"
+                    style={{
+                      display:
+                        this.props.boxes.filter((box) => {
+                          return box.props.situation === situations.IN_SHELL;
+                        }).length === 0 &&
+                        this.props.mode !== boxesModes.PLAYING &&
+                        this.props.level === 1
+                          ? ''
+                          : 'none',
+                    }}
+                  />
+                </Grid.Row>
+              </Grid.Column>
+              <Grid.Column>
+                {this.props.mode !== boxesModes.PLAYING &&
+                this.props.level === 2 ? (
+                  <Table
+                    style={{
+                      width: 150,
+                    }}
+                  >
+                    <Table.Body>
+                      <Table.Row textAlign="center">
+                        <Table.Cell>optimum</Table.Cell>
+                        <Table.Cell>{this.props.optimum}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row textAlign="center">
+                        <Table.Cell>total time</Table.Cell>
+                        <Table.Cell>{this.props.totalTime}</Table.Cell>
+                      </Table.Row>
+                      <Table.Row textAlign="center">
+                        <Table.Cell>total time/optimum</Table.Cell>
+                        <Table.Cell>
+                          {Math.round(
+                            (this.props.optimum / this.props.totalTime) * 100
+                          ) / 100}
+                        </Table.Cell>
+                      </Table.Row>
+                    </Table.Body>
+                  </Table>
+                ) : (
+                  ''
+                )}
+              </Grid.Column>
+            </>
+          )}
         </Grid>
       </>
     );

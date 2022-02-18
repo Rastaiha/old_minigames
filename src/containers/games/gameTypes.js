@@ -1,4 +1,19 @@
 export default {
+  THIRD_BLANK_GAME: {
+    name: 'بازی جای خالی سوم',
+    type: 'THIRD_BLANK_GAME',
+    url: '/games/THIRD_BLANK_GAME/',
+  },
+  SECOND_BLANK_GAME: {
+    name: 'بازی جای خالی دوم',
+    type: 'SECOND_BLANK_GAME',
+    url: '/games/SECOND_BLANK_GAME/',
+  },
+  FIRST_BLANK_GAME: {
+    name: 'بازی جای خالی اول',
+    type: 'FIRST_BLANK_GAME',
+    url: '/games/FIRST_BLANK_GAME/',
+  },
   MAP_GAME: {
     name: 'بازی نقاله و نقشه',
     type: 'MAP_GAME',

@@ -4,7 +4,7 @@ import * as actionTypes from '../actions/actionTypes';
 import initialBoxes from './boxesInitialData';
 import * as boxesModes from './boxesModes';
 
-const optimums = [24, 18, 100, 21];
+const optimums = [21, 24, 18, 100];
 
 function boxesSimulation(
   state = {
@@ -75,7 +75,6 @@ function boxesSimulation(
         ...state,
         optimum: optimums[state.round],
         round: state.round + 1,
-        
       };
     case actionTypes.CHANGE_GAME_MODE:
       return {
