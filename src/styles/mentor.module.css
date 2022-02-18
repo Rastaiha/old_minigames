@@ -1,0 +1,82 @@
+.segment {
+  background: #fafafa !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 14px !important;
+  min-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.tabBar {
+  background: #fafafa !important;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25) !important;
+  border-radius: 14px !important;
+}
+
+.sticky {
+  position: sticky !important;
+  top: 75px;
+}
+
+.cardContainer {
+  position: relative;
+  text-align: center;
+  direction: rtl;
+  min-width: 250px;
+  max-width: 400px;
+  padding: 16px 28px;
+  background: #ffffff;
+  box-shadow: 0 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 14px;
+  margin: 9px 18px;
+}
+
+.cardHeader {
+  font-weight: bolder;
+  font-size: 1.2em;
+  border-bottom: 1px solid #aaaaaa;
+  margin-bottom: 12px;
+  padding-bottom: 4px;
+}
+
+.spaceBetween {
+  display: flex;
+  justify-content: space-between;
+}
+
+.editIcon {
+  position: absolute;
+  top: 12px;
+  right: 8px;
+}
+
+.workshopBody {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  height: fit-content !important;
+}
+
+.workshopBody > div {
+  margin-bottom: 6px;
+}
+
+.rowFlex {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.columnFlex {
+  display: flex;
+  flex-direction: column;
+}
+
+.notifIcon {
+  transform: rotateZ(45deg);
+  position: absolute;
+  top: 40px;
+  left: -10px;
+}

@@ -1,0 +1,19 @@
+#base10{
+  position: absolute;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+  margin: 0 auto!important;
+  padding: 0 auto!important;
+}
+
+#blocks{
+  direction: rtl;
+  text-align: right;
+  overflow-x: scroll;
+}
+
+#backGround{
+  background-color: blue;
+}

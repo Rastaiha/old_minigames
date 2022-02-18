@@ -1,0 +1,4 @@
+export const ON_FINISH_CLICKED = 'ON_FINISH_CLICKED';
+export const CORRECT_ANSWER = 'CORRECT_ANSWER';
+export const WRONG_ANSWER = 'WRONG_ANSWER';
+export const PLAYING = 'PLAYING';

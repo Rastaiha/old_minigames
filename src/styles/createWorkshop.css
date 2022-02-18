@@ -1,0 +1,15 @@
+.createWorkshopPage {
+  direction: rtl;
+  text-align: right;
+}
+
+.empty-widgets {
+  margin: auto;
+  text-align: center;
+  color: #888;
+}
+.ui.form label,
+.ui.form .field > label {
+  margin-top: 10px;
+  display: block;
+}

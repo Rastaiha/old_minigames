@@ -1,0 +1,7 @@
+#checkButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: center;
+    margin-left: '10px';    
+}

@@ -1,0 +1,60 @@
+{
+  "name": "rasta_workshop_prototype",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@tinymce/tinymce-react": "^3.6.0",
+    "chart.js": "^3.7.1",
+    "hybrid-crypto-js": "^0.2.3",
+    "js-sha256": "^0.9.0",
+    "konva": "^7.0.2",
+    "lodash": "^4.17.19",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1",
+    "react-chartjs-2": "^2.10.0",
+    "react-dom": "^16.13.1",
+    "react-konva": "^16.13.0-3",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.2.0",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "^3.4.3",
+    "react-semantic-ui-range": "^0.7.0",
+    "react-spring": "^8.0.27",
+    "redux": "^4.0.5",
+    "redux-thunk": "^2.3.0",
+    "redux-undo": "^1.0.1",
+    "semantic-ui-css": "^2.4.1",
+    "semantic-ui-react": "^0.88.2",
+    "styled-components": "^5.1.1",
+    "tinymce": "^5.3.1"
+  },
+  "devDependencies": {
+    "eslint-config-react-app": "^5.2.1",
+    "prettier": "2.0.5",
+    "redux-devtools": "^3.5.0",
+    "redux-devtools-dock-monitor": "^1.1.3",
+    "redux-devtools-log-monitor": "^1.4.0",
+    "redux-logger": "^3.0.6"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom --passWithNoTests",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true
+  }
+}

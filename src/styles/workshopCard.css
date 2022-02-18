@@ -1,0 +1,109 @@
+.workshops-list .card-list {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+}
+.workshops-list .card-container {
+  position: relative;
+  margin: 10px auto 0;
+  direction: rtl;
+  text-align: right;
+  width: 150px;
+  display: table;
+}
+.workshops-list .card-body {
+  padding-bottom: 25px;
+}
+.workshops-list .card-container > label {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+  z-index: 2;
+  background-color: #ff5050;
+  padding: 3px 10px 1px;
+  border-radius: 5px;
+  color: white;
+  overflow: hidden;
+}
+
+.workshops-list .card-content {
+  background: white;
+  width: 150px;
+  border-radius: 5px;
+  overflow: hidden;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+  position: relative;
+}
+
+.workshops-list .card-content .card-image {
+  width: 150px;
+  display: flex;
+  justify-content: center;
+}
+
+.workshops-list .card-content .card-image img {
+  min-width: 150px;
+  height: 150px;
+}
+
+.workshops-list .card-content h3 {
+  margin: 0 0 3px;
+}
+
+.workshops-list .card-container .card-body .user-team {
+  color: #777777;
+}
+
+.workshops-list .card-container .card-body .padded {
+  padding: 10px;
+}
+
+.workshops-list .card-container h3 {
+  font-weight: 800;
+}
+
+@media (max-width: 800px) {
+  .workshops-list .card-content {
+    width: 110px;
+  }
+
+  .workshops-list .card-content .card-image {
+    width: 110px;
+  }
+
+  .workshops-list .card-content .card-image img {
+    min-width: 110px;
+    height: 110px;
+  }
+
+  .workshops-list .card-container h3 {
+    font-size: 15px;
+  }
+
+  .workshops-list .card-container label,
+  .workshops-list .card-container .user-team,
+  .workshops-list .card-container .user-desc {
+    font-size: 12px;
+  }
+}
+
+.show-workshop-btn {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 5px;
+  height: 30px;
+  text-align: center;
+  background: #2185d0;
+  color: white;
+  border-radius: 0 0 5px 5px;
+  transition: 0.3s;
+}
+
+.show-workshop-btn:hover {
+  cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+}
